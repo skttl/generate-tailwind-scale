@@ -25,3 +25,6 @@
  * @returns {Object<string, string>} The generated scale.
  */
 export function generateScale(config: ScaleConfig): { [key: string]: string };
+
+export type ScaleConfig = ScaleConfig;
+export type IncrementConfig = IncrementConfig;
