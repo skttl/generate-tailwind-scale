@@ -5,32 +5,26 @@ A utility to generate spacing scales for TailwindCSS.
 ## Installation
 
 ```sh
-npm install generate-tailwind-scale
+npm install generate-tailwind-scale --save-dev
 ```
 
 ## Usage
+
+In you tailwind.config.js file, you can import the package, and generate scales where you need it. Eg.
+
 ```js
-const generateScale = require('generate-scale');
+import { generateScale } from "generate-tailwind-scale"
 
-const config = {
-  classPrefix: "p-",
-  unit: "px",
-  scale: 1,
-  from: 0,
-  to: 100,
-  increment: {
-    default: 5,
-    below: {
-      20: 2
-    },
-    above: {
-      50: 10
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    theme: {
+        extend: {
+            spacing: {
+                ...generateScale()
+            }
+        }
     }
-  }
-};
-
-const scale = generateScale(config);
-console.log(scale);
+}
 ```
 
 ## Configuration
@@ -53,12 +47,12 @@ The increment configuration object allows you to define how the scale should inc
 - `below`: An object where keys are size thresholds, and values are the increment values to be used for sizes below these thresholds.
 - `above`: An object where keys are size thresholds, and values are the increment values to be used for sizes above these thresholds.
 
-**Example**
+#### Example
 
 Given the following increment configuration:
 
 ```js
-const increment = {
+{
   default: 5,
   below: {
     20: 2
@@ -75,7 +69,8 @@ The function will increment the size by:
 - `10` units for sizes above `50`.
 - `5` units for sizes between `20` and `50`.
 
-**Default increment config**
+
+#### Default increment config
 
 The default increment configuration is:
 
@@ -90,52 +85,60 @@ Here's a full example configuration and usage:
 const generateScale = require('generate-scale');
 
 ```js
-const config = {
-  classPrefix: "p-",
-  classSuffix: "",
-  unit: "px",
-  scale: 1,
-  from: 0,
-  to: 100,
-  increment: {
-    default: 5,
-    below: {
-      20: 2
-    },
-    above: {
-      50: 10
-    }
-  }
-};
+import { generateScale } from "generate-tailwind-scale"
 
-const scale = generateScale(config);
-console.log(scale);
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    theme: {
+        extend: {
+            spacing: {
+                ...generateScale(
+                    classPrefix: "px",
+                    classSuffix: "px",
+                    unit: "px"
+                    scale: 1,
+                    from: 0,
+                    to: 100,
+                    increment: {
+                        default: 5,
+                        below: {
+                            20: 2
+                        },
+                        above: {
+                            50: 10
+                        }
+                    }
+                )
+            }
+        }
+    }
+}
 
 /*
 Output:
 {
-  'p-0': '0px',
-  'p-2': '2px',
-  'p-4': '4px',
-  'p-6': '6px',
-  'p-8': '8px',
-  'p-10': '10px',
-  'p-12': '12px',
-  'p-14': '14px',
-  'p-16': '16px',
-  'p-18': '18px',
-  'p-20': '20px',
-  'p-25': '25px',
-  'p-30': '30px',
-  'p-35': '35px',
-  'p-40': '40px',
-  'p-45': '45px',
-  'p-50': '50px',
-  'p-60': '60px',
-  'p-70': '70px',
-  'p-80': '80px',
-  'p-90': '90px',
-  'p-100': '100px'
+  'w-px0px': '0px',
+  'w-px2px': '2px',
+  'w-px4px': '4px',
+  'w-px6px': '6px',
+  'w-px8px': '8px',
+  'w-px10px': '10px',
+  'w-px12px': '12px',
+  'w-px14px': '14px',
+  'w-px16px': '16px',
+  'w-px18px': '18px',
+  'w-px20px': '20px',
+  'w-px25px': '25px',
+  'w-px30px': '30px',
+  'w-px35px': '35px',
+  'w-px40px': '40px',
+  'w-px45px': '45px',
+  'w-px50px': '50px',
+  'w-px60px': '60px',
+  'w-px70px': '70px',
+  'w-px80px': '80px',
+  'w-px90px': '90px',
+  'w-px100px': '100px'
 }
 */
 ```
