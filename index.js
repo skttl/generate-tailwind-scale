@@ -10,6 +10,38 @@
  * @returns {Object<string, string>} The generated scale.
  */
 const generateScale = (config) => {
+    // Merge config with defaults
+    const {
+        classPrefix,
+        classSuffix,
+        unit,
+        scale,
+        from,
+        to,
+        increment
+    } = getConfig(config);
+
+    // Precompute increment keys and convert them to numbers
+    const belowKeys = Object.keys(increment.below || {}).map(Number);
+    const aboveKeys = Object.keys(increment.above || {}).map(Number);
+
+    // generate scale
+    const spacing = {};
+    let size = from;
+
+    while (size <= to) {
+        const className = `${classPrefix}${size}${classSuffix}`;
+        const value = `${size / scale}${unit}`;
+        spacing[className] = value;
+
+        size = getNextSize(size, increment, belowKeys, aboveKeys);
+    }
+    
+    return spacing;
+};
+
+const getConfig = (config) => {
+    /** @type {ScaleConfig} */
     const defaultConfig = {
         classPrefix: "",
         classSuffix: "",
@@ -29,39 +61,29 @@ const generateScale = (config) => {
         }
     };
 
-    // merge config
-    const {
-        classPrefix = defaultConfig.classPrefix,
-        classSuffix = defaultConfig.classSuffix,
-        unit = defaultConfig.unit,
-        scale = defaultConfig.scale,
-        from = defaultConfig.from,
-        to = defaultConfig.to,
-        increment = defaultConfig.increment
-    } = config || {};
 
-    // generate scale
-    const spacing = {};
-    let size = from;
-    while (size <= to) {
-        spacing[`${classPrefix}${size}${classSuffix}`] = `${size / scale}${unit}`;
+    // Merge config with defaults
+    return { ...defaultConfig, ...config };
+}
 
-        // increment size
-        let matchingBelowIncrement = Object.keys(increment.below || {}).find((key) => size > parseInt(key, 10));
-        if (matchingBelowIncrement) {
-            size += increment.below[matchingBelowIncrement];
-            continue;
+const getNextSize = (currentSize, increment, belowKeys, aboveKeys) => {
+    let nextSize = currentSize + (increment.default || 1);
+
+    for (const key of belowKeys) {
+        if (currentSize > key) {
+            nextSize = currentSize + (increment.below[key] || increment.default || 1);
+            return nextSize;
         }
-
-        let matchingAboveIncrement = Object.keys(increment.above || {}).find((key) => size <= parseInt(key, 10));
-        if (matchingAboveIncrement) {
-            size += increment.above[matchingAboveIncrement];
-            continue;
-        }
-
-        size += increment.default || 1;
     }
-    return spacing;
+
+    for (const key of aboveKeys) {
+        if (currentSize <= key) {
+            nextSize = currentSize + (increment.above[key] || increment.default || 1);
+            return nextSize;
+        }
+    }
+
+    return nextSize;
 };
 
 module.exports = generateScale;
