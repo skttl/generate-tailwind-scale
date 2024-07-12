@@ -5,6 +5,15 @@
  * @property {Object<number, number>} [below] - Increment values for sizes below certain thresholds.
  * @property {Object<number, number>} [above] - Increment values for sizes above certain thresholds.
  */
+type IncrementConfig = {
+    default: number,
+    below?: {
+        [key: number]: number
+    },
+    above?: {
+        [key: number]: number
+    }
+}
 
 /**
  * Scale configuration for the scale generator.
@@ -17,6 +26,15 @@
  * @property {number} [to] - The ending value of the scale.
  * @property {IncrementConfig} [increment] - Increment configuration.
  */
+type ScaleConfig = {
+    classPrefix?: string,
+    classSuffix?: string,
+    unit?: string,
+    scale?: number,
+    from?: number,
+    to?: number,
+    increment?: IncrementConfig
+}
 
 /**
  * Generates a scale based on the given configuration.
