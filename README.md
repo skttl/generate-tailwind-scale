@@ -13,7 +13,7 @@ npm install generate-tailwind-scale --save-dev
 In you tailwind.config.js file, you can import the package, and generate scales where you need it. Eg.
 
 ```js
-import { generateScale } from "generate-tailwind-scale"
+const generateScale = require("generate-tailwind-scale")
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -85,7 +85,7 @@ Here's a full example configuration and usage:
 const generateScale = require('generate-scale');
 
 ```js
-import { generateScale } from "generate-tailwind-scale"
+const generateScale = require("generate-tailwind-scale")
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
