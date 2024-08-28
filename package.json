@@ -1,11 +1,11 @@
 {
   "name": "generate-tailwind-scale",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A utility to generate spacing scales for Tailwind CSS",
   "main": "index.js",
   "types": "types.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/skttl/generate-tailwind-scale/issues"
   },
-  "homepage": "https://github.com/skttl/generate-tailwind-scale#readme"
+  "homepage": "https://github.com/skttl/generate-tailwind-scale#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }

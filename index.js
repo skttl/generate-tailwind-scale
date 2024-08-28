@@ -70,14 +70,14 @@ const getNextSize = (currentSize, increment, belowKeys, aboveKeys) => {
     let nextSize = currentSize + (increment.default || 1);
 
     for (const key of belowKeys) {
-        if (currentSize > key) {
+        if (currentSize < key) {
             nextSize = currentSize + (increment.below[key] || increment.default || 1);
             return nextSize;
         }
     }
 
     for (const key of aboveKeys) {
-        if (currentSize <= key) {
+        if (currentSize >= key) {
             nextSize = currentSize + (increment.above[key] || increment.default || 1);
             return nextSize;
         }
@@ -86,4 +86,8 @@ const getNextSize = (currentSize, increment, belowKeys, aboveKeys) => {
     return nextSize;
 };
 
-module.exports = generateScale;
+module.exports = {
+    generateScale,
+    getConfig,
+    getNextSize,
+};;
